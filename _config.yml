@@ -12,7 +12,7 @@ title                    : "Wait the grapes to mature"
 title_separator          : "-"
 name                     : &name "Yujing Peng"
 description              : &description "personal description"
-url                      : https://Yujing Peng.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://perksy-rouh.github.io/Yujing-Peng.github.io/ # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "Perksy-Rouh/Yujing-Peng.github.io"
 
