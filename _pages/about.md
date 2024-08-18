@@ -7,5 +7,5 @@ redirect_from:
   - /about.html
 ---
 
-I'm a forth year student in [School of Aerospace Engineering and Applied Mechanics](https://aero-mech.tongji.edu.cn/), [Tongji University](https://www.tongji.edu.cn/). My major is Aircraft Manufacturing Engineering.
+I'm a fourth year student in [School of Aerospace Engineering and Applied Mechanics](https://aero-mech.tongji.edu.cn/), [Tongji University](https://www.tongji.edu.cn/). My major is Aircraft Manufacturing Engineering.
 
