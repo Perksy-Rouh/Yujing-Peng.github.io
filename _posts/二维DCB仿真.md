@@ -1,0 +1,70 @@
+---
+tags:
+  - DCB
+  - abaqus
+date: 2024-11-27
+---
+
+
+<hr style="margin-top: 5px; margin-bottom: 2px;">
+
+<p style="text-align:right;font-style:italic">此模型参考我导师论文</p>
+
+## Creat Part
+***
+- 使用`create part`创建2D`shell`单元,画一个(0,0)-(10.5,3.1356)的矩形,再画(0,1.56)-(34.5,1.5756),删去左侧重叠的两条线段.中键确定.
+- 使用`create Datum Plane`![[Create Datum Plane.png]] offset XY平面 `1.56/1.5756`两个参考面
+- 再使用`Partition Face:Use Datum Plane` ![[Partition Face by Datum Plane.png]] 将平面切为三部分,将中间那块存为一个`set`,如下图.(梁部分也建立`set`以便后续操作)
+![[DCB_Part_set.png]]
+
+## Property
+***
+### Material
+![[DCB_Material.png]]
+- 我们这次DCB仿真使用的是内聚力单元的方法,内聚力单元材料这边我们选择弹性(Traction)、二次名义损伤（Type选择Energy）
+![[DCB_Material_Damage.png]]![[DCB_Material_Evaluation.png]]
+### Section
+- 分别创建`Cohesive`(在Other选项里)和`Solid Homogeous`截面,并赋予给前面建立的`coh`和`beam`.
+- `out-of-plane thickness`设置为25.4.
+![[DCB_Section_coh.png]]![[DCB_Section_out thickness.png]]
+### Orientation
+- 因为我们的梁赋予的是非各向同性材料，所以需要指派方向，这里直接使用初始的世界坐标即可。
+
+## Assembly
+***
+- 直接使用`Create Instance`导入部件
+- 选取左上角建立set `y-load`
+
+## Step
+***
+- 创建静力分析步,开启非线性,最大分析步设置为5000,`Increment size`分别设置为0.001/1E-09/0.001
+- 使用`Create History Output`![[Create History Output.png]] 建立节点的历史输出,`Domain`选择`set`/`y-load`,输出值勾选`RF2`和`U2`.为后面后处理做准备.
+
+## Mesh
+***
+- 使用全局尺寸`0,5`,使用`Assign Mesh Controls`![[Assign Mesh Controls.png]] 将`coh`部分指定为扫掠格式.
+- 再在`Assign Element Type` ![[Assign Element Type.png]] 编辑`coh`的单元类型为`Cohesive`,`Viscosity`取`2.5E-07`,勾选`Element deletion`.单元类型为`COH2D4`.
+- 同时设置`beam`的单元类型为`CPE4I`.
+- 使用`Mesh Part` ![[Mesh Part.png]] 划分网格.
+
+## Load
+***
+- `Creat Boundary`创建边界条件,`Step`选择`Initial`,`Type`选择`Displacement/Rotation`,中键确定,`Rigion`选择左侧上下的两点,限制`U1`.
+- 同样分别为两个点创建边界条件,`Step`选择`Step-1`,勾选`U2`给定15的位移,使其上下分开.(上侧点使用set `y-load`).
+
+*然后就可以创建Job进行分析了*
+
+## Visualization
+***
+- 打开相应的odb后使用`Create XY Data`里的`Combine`功能画出载荷-位移曲线
+![[DCB_Result.png]]
+
+
+
+## 和解析解对比
+***
+![[DCB_result compariison.png]]
+
+
+***
+<p style="text-align:right;font-style:italic">2024/11/27</p>
