@@ -8,7 +8,7 @@
 
 # Basic Site Settings
 locale                   : "ShangHai, China"
-title                    : "Wait the grapes to mature"
+title                    : "Wait the grapes mature"
 title_separator          : "-"
 name                     : &name "Yujing Peng"
 description              : &description "personal description"
